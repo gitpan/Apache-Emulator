@@ -1,9 +1,12 @@
 package Apache::Emulator::Constants;
-$VERSION = 0.01;
+$VERSION='0.01';
 use strict;
+use vars qw ($VERSION );
+use Apache::Constants;
 1;
 
 package Apache::Constants;
+use strict;
 use vars qw (%EXPORT_TAGS @EXPORT_OK $EXPORT @ISA);
 require Exporter;
 @ISA = qw(Exporter);
@@ -183,3 +186,7 @@ my $rc = [@common, @response];
 	      ); 
 
 *EXPORT = \@common;
+
+1;
+
+

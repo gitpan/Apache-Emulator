@@ -1,8 +1,10 @@
 package Apache::Emulator;
-$VERSION = 0.01;
+$VERSION = 0.04;
 use strict;
 use Carp;
 use Apache::Emulator::Constants;
+use Apache;
+use Apache::Constants;
 
 #-----------------------------------------------------------------------
 
@@ -12,8 +14,8 @@ Apache::Emulator - Emulates the mod_perl request object from CGI
 
 =head1 VERSION
 
-This document refers to version 0.01 of Apache::Emulator, released 
-October 29, 2001.
+This document refers to version 0.03 of Apache::Emulator, released 
+November 20, 2001.
 
 =head1 SYNOPSIS
 
@@ -204,6 +206,31 @@ sub header_out
     return $r->{header}->{$header} if exists $r->{header}->{$header};
 }
 
+sub header_in
+{
+    my ($r,$header,$value) = @_;
+    $header = uc $header;
+    if (@_ == 3){
+	if (defined $value){
+	    if (exists $ENV{$header}){
+		$ENV{$header} = $value;
+	    } else {
+		$ENV{'HTTP_'.$header} = $value;
+	    }
+	} else {
+	    delete $ENV{'HTTP_'.$header};
+	    delete $ENV{$header};
+	}
+    }
+    if (exists $ENV{$header}){
+	return $ENV{$header};
+    } elsif (exists $ENV{'HTTP_'.$header}){
+	return $ENV{'HTTP_'.$header};
+    } else {
+	# fall through
+    }
+}
+
 #-----------------------------------------------------------------------
 
 =head2 $r->method()
@@ -258,6 +285,7 @@ sub protocol
 {
     my $r = shift;
     $r->{protocol} = $ENV{SERVER_PROTOCOL} unless exists $r->{protocol};
+    $r->{protocol} = 'HTTP/1.0' unless defined $r->{protocol};
     return $r->{protocol};
 }
 
@@ -365,10 +393,18 @@ sub status_line
 {
     my ($r,$string) = @_;
     if (defined $string){
-	$r->{status_line} = $string;
+	if ((exists $ENV{'PerlXS'}) and ($ENV{'PerlXS'} eq 'PerlIS')){
+	    $r->{status_line} = $r->protocol . ' ' .$string."\n";
+	} else {
+	    $r->{status_line} = 'Status: '.$string."\n";
+	}
     } elsif ((!defined $r->{status_line}) and 
 	     (defined $r->{status})){
-	$r->{status_line} = $r->{status} . ' ' . status_message($r->{status});
+	if ((exists $ENV{'PerlXS'}) and ($ENV{'PerlXS'} eq 'PerlIS')){
+	    $r->{status_line} = $r->protocol . ' ' .$r->{status} . ' ' . status_message($r->{status})."\n";
+	} else {
+	    $r->{status_line} = 'Status: ' .$r->{status} . ' ' . status_message($r->{status})."\n";
+	}
     } else {
 	# continue
     }
@@ -415,7 +451,7 @@ sub send_http_header
 	$r->{content_type} = $content_type;
     }
     $r->print($r->status_line);
-    $r->print('Content-type: '.$r->{content_type}."\n");
+    $r->print('Content-type: '.$r->{content_type}."\n") if (defined $r->{content_type});
     my $header;
     foreach $header (keys %{$r->{header}}){
 	$r->print($header.': '.$r->{header}->{$header}."\n");
@@ -444,6 +480,11 @@ sub dir_config
 {
     my ($r,$key) = @_;
     return defined $key ? $r->{conf}->{PerlSetVar}->{$key} : $r->{conf}->{PerlSetVar};
+}
+
+sub exit
+{
+    exit;
 }
 
 #-----------------------------------------------------------------------

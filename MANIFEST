@@ -1,6 +1,9 @@
 Changes
-Emulator.pm
+lib/Apache/Emulator.pm
+lib/Apache/Emulator/Constants.pm
+lib/Apache/Emulator/Test.pm
 MANIFEST
 Makefile.PL
 README
 test.pl
+META.yml                                Module meta-data (added by MakeMaker)

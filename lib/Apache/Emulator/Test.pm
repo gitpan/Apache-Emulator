@@ -3,7 +3,7 @@ $VERSION = 0.01;
 use strict;
 use vars qw ($VERSION);
 use Apache;
-use Apache::Constants qw(:common :remotehost :http);
+use Apache::Constants qw( :common :http :remotehost );
 
 sub handler
 {
@@ -50,7 +50,7 @@ sub handler
     print ('$r->status_line() = '.$r->status_line()."\n");
 
     print ("\nSERVER CONFIGURATION METHODS\n");
-    print ('$r->dir_config(\'CONFIG\') = '.$r->dir_config('CONFIG')."\n");
+    print ('$r->dir_config(\'CONFIG\') = '.(defined $r->dir_config('CONFIG') ? ('\''.$r->dir_config('CONFIG').'\'') : 'undef').";\n");
 
     print ("\nGLOBAL VARIABLES\n");
     print ('$ENV{MOD_PERL} = '.(defined $ENV{MOD_PERL} ? ('\''.$ENV{MOD_PERL}.'\'') : 'undef').";\n");
