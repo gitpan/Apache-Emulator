@@ -1,0 +1,11 @@
+Apache::Emulator
+================
+
+Installation
+------------
+
+The usual ...
+
+> perl Makefile.PL
+> make
+> make install
