@@ -1,7 +1,6 @@
 package Apache::Emulator::Constants;
 $VERSION = 0.01;
 use strict;
-use Apache::Constants;
 1;
 
 package Apache::Constants;
