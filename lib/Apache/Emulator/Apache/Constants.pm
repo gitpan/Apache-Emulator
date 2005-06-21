@@ -1,10 +1,3 @@
-package Apache::Emulator::Constants;
-$VERSION='0.01';
-use strict;
-use vars qw ($VERSION );
-use Apache::Constants;
-1;
-
 package Apache::Constants;
 use strict;
 use vars qw (%EXPORT_TAGS @EXPORT_OK $EXPORT @ISA);
@@ -167,7 +160,7 @@ my $rc = [@common, @response];
 		types      => \@types, 
 		args_how   => \@args_how,
 		override   => \@override,
-		#depreciated
+		#deprecated
 		response_codes => $rc,
 		);
 

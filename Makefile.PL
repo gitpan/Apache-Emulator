@@ -1,11 +1,8 @@
+use 5.008005;
 use ExtUtils::MakeMaker;
+use strict;
+
 WriteMakefile(
-	      NAME          => 'Apache::Emulator',
-	      AUTHOR        => 'Nigel Wetters <nwetters@cpan.org>',
-	      VERSION_FROM  => 'lib/Apache/Emulator.pm',
-	      ABSTRACT_FROM => 'lib/Apache/Emulator.pm',
-	      PREREQ_PM     => {
-		  'HTTP::Status' => 0,
-		  'Test::More'   => 0
-		  }
-	      );
+	      NAME              => 'Apache::Emulator',
+	      VERSION_FROM      => 'lib/Apache/Emulator.pm', # finds $VERSION
+);
