@@ -1,3 +1,5 @@
+package Apache::Emulator::Apache;
+
 package Apache;
 use strict;
 

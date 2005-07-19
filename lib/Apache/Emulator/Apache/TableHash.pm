@@ -1,3 +1,4 @@
+package Apache::Emulator::Apache::TableHash;
 package Apache::TableHash;
 use strict;
 

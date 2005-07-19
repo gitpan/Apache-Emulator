@@ -1,3 +1,4 @@
+package Apache::Emulator::Apache::Constants;
 package Apache::Constants;
 use strict;
 use vars qw (%EXPORT_TAGS @EXPORT_OK $EXPORT @ISA);

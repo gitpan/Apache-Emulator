@@ -1,3 +1,4 @@
+package Apache::Emulator::Apache::Table;
 package Apache::Table;
 use strict;
 

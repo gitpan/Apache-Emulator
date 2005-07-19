@@ -1,5 +1,8 @@
 Revision history for Perl extension Apache::Emulator.
 
+0.06  Tue Jul 19 2005
+	- namespace problems in CPAN indexing (thx EVO)
+
 0.05  Tue Jun 21 2005
 	- rewritten from HTML::Mason::FakeApache (thx David Wheeler)
 
